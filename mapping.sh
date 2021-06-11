@@ -1,6 +1,4 @@
 
-#ref=/users/u233287/scratch/insertion_ref/reference/GRCh38_1kg_mainchrs.fa
-#ref=/users/u233287/scratch/insertion_ref/reference/t2t_CHM13v1/chm13.draft_v1.0.fasta
 # Input fasta haplotype
 fasta=$1
 name=$2

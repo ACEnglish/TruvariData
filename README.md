@@ -4,6 +4,15 @@ Investigating maximum short-read utility for structural variation
 
 This repository contains the workflow and notes for creating most of the data for this research
 
+# Requirements:
+
+bcftools
+truvari
+minimap
+paftools
+paragraph
+biograph.. eventually
+
 # References
 
 Subset references to only Autosomes and X/Y.
@@ -11,14 +20,7 @@ GRCh38
 hg19
 t2t chm13 v1.0
 
-
 # Creating the per-sample SV calls
-
-
-## File structure:
-
-The per-sample vcfs are organized into sub-directories by `reference/project/sample`
-(e.g. `chm13/li/NA12878.vcf.gz`)
 
 ## Download haplotype fastas
 The haplotype fasta files are pulled from their public locations using `eichler_download.sh` and `li_download.sh`
@@ -35,26 +37,63 @@ Merge the two haplotype vcf files together using
   
   `bash merge.sh sample.hap1.var.vcf.gz sample.hap2.var.vcf.gz sample`
 
-This creates a diploid vcf file name `sample.vcf.gz` and its index.
+This creates a diploid vcf file name `sample.vcf.gz` and its index. This is the start of
+our 'exact' merge VCFs. At this point, the files should be orgainzed in the below file
+structure
+
+## File structure:
+
+The per-sample vcfs are organized into sub-directories starting with the exact vcf path
+`data/reference/project/sample/merge_strategy/` (e.g. `data/chm13/li/NA12878/exact.vcf.gz`)
+Be sure to make have the index present, also
 
 ## Making per-sample collapsed VCFs
 
-Make a file like `single_sample.txt` with each single-sample VCF.
-Run `bash per_sample_collapse.sh` to do the strict and loose collapsing of per-sample
-files. This will create single-sample `exact_merge` and `loose_merge` in each reference
-directory. 
+Run per-sample strict/exact collapsing using:
+```bash
+	single_sample_collapse.sh $exact_vcf_path reference.fa
+```
+Where `$exact_vcf_path` is described above in File Structure.
+
+This will run `truvari collapse` for exact and for loose merging and place them
+in the appropriate directory. For example `data/chm13/li/NA12878/strict.vcf.gz` 
+
+Each collapse also produces `removed.strict.vcf.gz`, vcf indexes, and logs in `collapse.strict.log`
 
 ## Making multi-sample VCFs
 
-Run `multi_merge.sh`
-Be sure to update the TMPDIR and reference file variables in the script
-Run this in a reference destination directory / merge strategy (e.g. grch38/exact_merge)
-And provide G as first argument to make the grch38 version, else chm13 is used
+Once all of the samples have been processed, the script `multi_merge.py` will parse the
+samples and create the commands do the joint merging.
+
+```bash
+python multi_merge.py --reference path/to/reference.fa  chm13/*/*/strict.vcf.gz > merge_chm13.sh
+bash merge_chm13.sh
+```
+
+This will find all of the chm13 vcfs, build the appropriate header, and the commands to
+create the exact, strict, and loose multi-sample merges.
+
+These multi sample merges are placed inside of the `data/reference/` directory (e.g.
+`data/chm13/exact.loose.vcf.gz`
+
+Where the exact is the intra-sample merging strategy and loose is the inter-sample merging
+strategy.
+
+## Build the pararaph multi-sample VCFs
+
+build_paragraph.sh data/chm13/exact.exact.vcf.gz
 
 ## Make summary stats
 
+Beside a VCF, create a joblib DataFrame of just SVs >= 50bp using, for example:
 
-##
-*Note: at this point, multiple vcfs were created and organized in a directory structure:*
-TODO: Fill in the directory structure 
-TODO: Resume processing for stats and stuff here
+`bash make_stats.sh data/chm13/exact.vcf.gz`
+
+Once these are all created, run
+`python consoidate_stats.py -o sv_stats.jl data/`
+
+This will look for all subdirectories that have subdirectories that have subdirectories
+containing '.jl' files. (a.k.a. reference/project/sample/merge_strategy.jl)
+So that it can append columns of those path metadata information to each row, drop the
+index, and make a usable dataframe for the SVCharacteristics notebook.
+
