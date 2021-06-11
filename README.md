@@ -35,7 +35,7 @@ This creates an alignment file `sample.hap1.paf`, a vcf file `sample.hap1.var.vc
 ## Merge haplotypes
 Merge the two haplotype vcf files together using
   
-  `bash merge.sh sample.hap1.var.vcf.gz sample.hap2.var.vcf.gz sample`
+  `bash merge_haps.sh sample.hap1.var.vcf.gz sample.hap2.var.vcf.gz sample`
 
 This creates a diploid vcf file name `sample.vcf.gz` and its index. This is the start of
 our 'exact' merge VCFs. At this point, the files should be orgainzed in the below file
