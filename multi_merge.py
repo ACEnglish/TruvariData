@@ -66,11 +66,11 @@ def make_collapse_cmds(out_dir, reference):
 
     strict_cmd = base_cmd + f"-c {out_dir}/removed.strict.vcf -o {out_dir}/strict.vcf\n"
     strict_cmd += f"vcf-sort strict.vcf | bcftools + fill-tags | bgzip > {out_dir}/strict.vcf.gz\n"
-    strict_cmd += f"tabix {out_dir}/strict.vcf.gz"
+    strict_cmd += f"tabix {out_dir}/strict.vcf.gz\n"
 
     loose_cmd = base_cmd + f"-p 0.7 -P 0.7 -r 1000 -c {out_dir}/removed.loose.vcf -o {out_dir}/loose.vcf\n"
     loose_cmd += f"vcf-sort loose.vcf | bcftools + fill-tags | bgzip > {out_dir}/loose.vcf.gz\n"
-    loose_cmd += f"tabix {out_dir}/loose.vcf.gz"
+    loose_cmd += f"tabix {out_dir}/loose.vcf.gz\n"
     
     return strict_cmd, loose_cmd
 
