@@ -60,40 +60,51 @@ in the appropriate directory. For example `data/chm13/li/NA12878/strict.vcf.gz`
 
 Each collapse also produces `removed.strict.vcf.gz`, vcf indexes, and logs in `collapse.strict.log`
 
-## Making multi-sample VCFs
-
-Once all of the samples have been processed, the script `multi_merge.py` will parse the
-samples and create the commands do the joint merging.
-
-```bash
-python multi_merge.py --reference path/to/reference.fa  chm13/*/*/strict.vcf.gz > merge_chm13.sh
-bash merge_chm13.sh
-```
-
-This will find all of the chm13 vcfs, build the appropriate header, and the commands to
-create the exact, strict, and loose multi-sample merges.
-
-These multi sample merges are placed inside of the `data/reference/` directory (e.g.
-`data/chm13/exact.loose.vcf.gz`
-
-Where the exact is the intra-sample merging strategy and loose is the inter-sample merging
-strategy.
-
-## Build the pararaph multi-sample VCFs
-
-build_paragraph.sh data/chm13/exact.exact.vcf.gz
-
-## Make summary stats
+## Make single sample summary stats
 
 Beside a VCF, create a joblib DataFrame of just SVs >= 50bp using, for example:
 
 `bash make_stats.sh data/chm13/exact.vcf.gz`
 
 Once these are all created, run
-`python consoidate_stats.py -o sv_stats.jl data/`
+`python consolidate_stats.py data/ stats/single_sample_stats.jl`
 
 This will look for all subdirectories that have subdirectories that have subdirectories
 containing '.jl' files. (a.k.a. reference/project/sample/merge_strategy.jl)
 So that it can append columns of those path metadata information to each row, drop the
 index, and make a usable dataframe for the SVCharacteristics notebook.
+
+## Making multi-sample VCFs
+
+File structure:
+In a directory, not the same as the single-sample (`data/` used above), we will create
+all the combinations of merges. For a single reference, we need to take all the exact 
+merges and then do an exact merge to create `exact.exact.vcf.gz`
+
+Do this by calling:
+```bash
+python multi_merge.py in_dir out_dir reference.fa > the_merge_script.sh
+```
+
+This will create all the commands needed to make all combinations of merges inside of
+```
+out_dir/exact/exact.vcf.gz
+out_dir/exact/strict.vcf.gz
+out_dir/loose/strict.vcf.gz
+etc ...
+```
+## Multi-sample stats
+
+Once all of the samples have been processed, create the stats consolidated
+stats DataFrames via `python merge_stats.py *.jl` where `*.jl` is one of the
+`out_dirs` made during the multi-sample merge step. Note that this assumes that
+`out_dir` is the name of a reference.
+
+## Build the pararaph multi-sample VCFs
+
+Given one of the exact files, create a paragraph reference out of only the svs using:
+
+ABCDE
+
+
 
