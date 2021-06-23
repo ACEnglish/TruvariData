@@ -65,12 +65,12 @@ def make_collapse_cmds(out_dir, reference):
     base_cmd = f"truvari collapse --reference {reference} -i {out_dir}/exact.vcf.gz "
 
     strict_cmd = base_cmd + f"-c {out_dir}/removed.strict.vcf -o {out_dir}/strict.vcf\n"
-    strict_cmd += f"vcf-sort strict.vcf | bcftools + fill-tags | bgzip > {out_dir}/strict.vcf.gz\n"
-    strict_cmd += f"tabix {out_dir}/strict.vcf.gz\n"
+    strict_cmd += f"vcf-sort {out_dir}/strict.vcf | bcftools +fill-tags | bgzip > {out_dir}/strict.vcf.gz\n"
+    strict_cmd += f"tabix {out_dir}/strict.vcf.gz"
 
     loose_cmd = base_cmd + f"-p 0.7 -P 0.7 -r 1000 -c {out_dir}/removed.loose.vcf -o {out_dir}/loose.vcf\n"
-    loose_cmd += f"vcf-sort loose.vcf | bcftools + fill-tags | bgzip > {out_dir}/loose.vcf.gz\n"
-    loose_cmd += f"tabix {out_dir}/loose.vcf.gz\n"
+    loose_cmd += f"vcf-sort {out_dir}/loose.vcf | bcftools +fill-tags | bgzip > {out_dir}/loose.vcf.gz\n"
+    loose_cmd += f"tabix {out_dir}/loose.vcf.gz"
     
     return strict_cmd, loose_cmd
 
@@ -85,8 +85,9 @@ if __name__ == '__main__':
         print(f'mkdir -p {dest}')
         exact_cmd = make_exact_merge_cmds(files, dest)
         collapse_cmds = make_collapse_cmds(dest, reference)
+        print("\n#exact")
         print(exact_cmd)
+        print("\n#strict")
         print(collapse_cmds[0])
+        print("\n#loose")
         print(collapse_cmds[1])
-        print()
-

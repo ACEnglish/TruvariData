@@ -95,10 +95,14 @@ etc ...
 ```
 ## Multi-sample stats
 
-Once all of the samples have been processed, create the stats consolidated
-stats DataFrames via `python merge_stats.py *.jl` where `*.jl` is one of the
-`out_dirs` made during the multi-sample merge step. Note that this assumes that
-`out_dir` is the name of a reference.
+Once all of the samples have been processed, create the stats via:
+```
+python only_svs.py input.vcf.gz | truvari truv2df -v -i -f /dev/stdin output.jl
+```
+
+Consolidate the stats with `python merge_stast.py *.jl` where  `*.jl` are all
+from  one of `out_dirs` made during the multi-sample merge step. Note that 
+this assumes that `out_dir` is the name of a reference.
 
 ## Build the pararaph multi-sample VCFs
 
@@ -107,4 +111,5 @@ Given one of the exact files, create a paragraph reference out of only the svs u
 ABCDE
 
 
+## Benchmarking single-sample discovery
 
