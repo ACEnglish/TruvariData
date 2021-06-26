@@ -112,4 +112,27 @@ ABCDE
 
 
 ## Benchmarking single-sample discovery
+ABCDE
+
+## Other merges
+
+To compare other merging methods, we made a custom script `naieve_50.py` to do 50%
+reciprocal overlap merging. We then downloaded three other SV merging tools to compare.
+
+SURVIVOR v1.0.6 https://github.com/fritzsedlazeck/SURVIVOR
+Jasmine v1.1 https://github.com/mkirsche/Jasmine
+svimmer v0.1 https://github.com/DecodeGenetics/svimmer
+
+Using the strict intra-sample merge SVs, we ran each program with default parameters.
+
+```
+SURVIVOR merge grch38_plain.txt 500 1 1 0 1 50 survivor.vcf
+run.sh file_list=grch38_plain.txt out_file=jasmine.vcf threads=48
+python svimmer --threads 48 grch38_gzip.txt \
+	$(for i in $(seq 1 22) X Y; do echo -n chr$i " "; done) > svimmer.vcf
+```
+
+AFs were measured using `bcftools +fill-tags`
+Jasmine and svimmer don't preserve genotype information from the input VCFs, so AF
+couldn't be measured
 

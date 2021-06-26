@@ -62,7 +62,7 @@ def make_exact_merge_cmds(in_files, out_dir):
 def make_collapse_cmds(out_dir, reference):
     """
     """
-    base_cmd = f"truvari collapse --reference {reference} -i {out_dir}/exact.vcf.gz "
+    base_cmd = f"truvari collapse --chain --reference {reference} -i {out_dir}/exact.vcf.gz "
 
     strict_cmd = base_cmd + f"-c {out_dir}/removed.strict.vcf -o {out_dir}/strict.vcf\n"
     strict_cmd += f"vcf-sort {out_dir}/strict.vcf | bcftools +fill-tags | bgzip > {out_dir}/strict.vcf.gz\n"
