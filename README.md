@@ -104,11 +104,18 @@ Consolidate the stats with `python merge_stast.py *.jl` where  `*.jl` are all
 from  one of `out_dirs` made during the multi-sample merge step. Note that 
 this assumes that `out_dir` is the name of a reference.
 
-## Build the pararaph multi-sample VCFs
+## Build the paragraph multi-sample VCFs
 
-Given one of the exact files, create a paragraph reference out of only the svs using:
+Given one of the multi-sample merges, create a paragraph reference out of only the svs using:
 
-ABCDE
+```bash
+ bash run_paragraphs.sh data/multi_merge/hg19/strict/strict.vcf.gz \
+ 						data/reference/hg19/hg19.fa \
+						data/paragraph/hg19
+```
+
+This will try to run paragraph just enough to make the reference inputs needed to run a
+modified version of paragraph https://github.com/ACEnglish/paragraph
 
 
 ## Benchmarking single-sample discovery
