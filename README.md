@@ -143,3 +143,9 @@ AFs were measured using `bcftools +fill-tags`
 Jasmine and svimmer don't preserve genotype information from the input VCFs, so AF
 couldn't be measured
 
+# Benchmarking ref-vcf  genotyping (BioGraph)
+
+1) Create a single VCF per sample:
+vcf-concat grch38.chr*.vcf.gz | bgzip > grch38.wg.vcf.gz
+
+2) run gtstats.sh on the base/comparison files to make the files
