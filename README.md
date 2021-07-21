@@ -25,6 +25,11 @@ t2t chm13 v1.0
 ## Download haplotype fastas
 The haplotype fasta files are pulled from their public locations using `eichler_download.sh` and `li_download.sh`
 
+## Assembly Stats:
+Calculate the basic assembly stats with [calN50](https://github.com/lh3/calN50)  
+And summarize with `n50_summary.py files.txt asm_summary.jl`  
+This summary is inside the repository's `stats/asm_summary.jl`  
+
 ## Haplotype mapping and variant calling
 Map each sample to a reference and call variants using mapping.sh
 
