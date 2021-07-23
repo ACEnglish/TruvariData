@@ -12,6 +12,7 @@ SZBINTY = CategoricalDtype(categories=truvari.SZBINS[1:], ordered=True)
 
 all_data = []
 for jl in Path(sys.argv[1]).rglob("*.jl"):
+    print(jl)
     split_path = str(jl).split('/')
     d = joblib.load(jl)
     d.reset_index(inplace=True)
@@ -19,7 +20,11 @@ for jl in Path(sys.argv[1]).rglob("*.jl"):
     d["GT"] = d["GT"].apply(lambda x: truvari.get_gt(x).name)
     ref, proj, samp, merge = split_path[-4:]
     merge = merge[:-len(".jl")]
-    d[["reference", "project", "sample", "merge"]] = ref, proj, samp, merge
+    d["reference"] = ref
+    d["project"] = proj
+    d["sample"] = samp
+    d["merge"] = merge
+    #d[["reference", "project", "sample", "merge"]] = ref, proj, samp, merge
     all_data.append(d)
 
 out = pd.concat(all_data)
