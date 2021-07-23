@@ -6,12 +6,13 @@ This repository contains the workflow and notes for creating most of the data fo
 
 # Requirements:
 
-bcftools
-truvari
-minimap
-paftools
-paragraph
-biograph.. eventually
+bcftools - 
+vcftools - 
+truvari - 
+minimap - 
+paftools - 
+paragraph - 
+biograph - v7.0
 
 # References
 
@@ -19,6 +20,7 @@ Subset references to only Autosomes and X/Y.
 GRCh38
 hg19
 t2t chm13 v1.0
+PR1
 
 # Creating the per-sample SV calls
 
@@ -27,8 +29,8 @@ The haplotype fasta files are pulled from their public locations using `eichler_
 
 ## Assembly Stats:
 Calculate the basic assembly stats with [calN50](https://github.com/lh3/calN50)  
-And summarize with `n50_summary.py files.txt asm_summary.jl`  
-This summary is inside the repository's `stats/asm_summary.jl`  
+And summarize with `n50_summary.py files.txt asm_fastastat.jl`  
+This summary is inside the repository's `stats/asm_fastastat.jl`
 
 ## Haplotype mapping and variant calling
 Map each sample to a reference and call variants using mapping.sh
@@ -37,20 +39,24 @@ Map each sample to a reference and call variants using mapping.sh
 
 This creates an alignment file `sample.hap1.paf`, a vcf file `sample.hap1.var.vcf.gz`, and an index for that vcf.
 
+## Mapping Stats:
+If you collect per-haplotype mapping logs from `mapping.sh`, you can build a table from all the stats generated.
+See consolidate_mapping_stats.py for details. This summary is also inside `stats/asm_mapstat.jl`
+
 ## Merge haplotypes
 Merge the two haplotype vcf files together using
   
-  `bash merge_haps.sh sample.hap1.var.vcf.gz sample.hap2.var.vcf.gz sample`
+  `bash merge_haps.sh sample.hap1.var.vcf.gz sample.hap2.var.vcf.gz sample output/path/var.vcf.gz`
 
 This creates a diploid vcf file name `sample.vcf.gz` and its index. This is the start of
 our 'exact' merge VCFs. At this point, the files should be orgainzed in the below file
-structure
+structure, thus the 4th argument 'output/path/var.vcf.gz'
 
 ## File structure:
 
 The per-sample vcfs are organized into sub-directories starting with the exact vcf path
-`data/reference/project/sample/merge_strategy/` (e.g. `data/chm13/li/NA12878/exact.vcf.gz`)
-Be sure to make have the index present, also
+`data/reference/project/sample/merge_strategy.vcf.gz` (e.g. `data/chm13/li/NA12878/exact.vcf.gz`)
+Be sure to create the index for the VCFs, also
 
 ## Making per-sample collapsed VCFs
 

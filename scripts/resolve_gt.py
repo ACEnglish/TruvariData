@@ -5,6 +5,7 @@ for line in sys.stdin:
         continue
     data = line.strip().split('\t')
     if line.startswith("#CHR"):
+        data[9] = sys.argv[1]
         sys.stdout.write("\t".join(data[:10]) + '\n')
         continue
         
