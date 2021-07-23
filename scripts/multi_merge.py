@@ -39,6 +39,7 @@ def make_exact_merge_cmds(in_files, out_dir):
         # hard assumption
         samples.append(i.split('/')[-2])
     samples = "\t".join(samples)
+    """
     header = tempfile.NamedTemporaryFile()
     # make a temporary file of the header
     header_cmd = f"bcftools merge -m none -0 --force-samples --print-header {files} > {header.name}"
@@ -54,6 +55,8 @@ def make_exact_merge_cmds(in_files, out_dir):
 
     # Why do I need the header and file names... right, because of the friggin lack of sample names
     exact_cmd = f"bcftools merge -m none -0 --use-header {new_header_fn} {files}"
+    """
+    exact_cmd = f"bcftools merge -m none -0 {files}"
     exact_cmd += "| bcftools annotate -x INFO/QNAME,INFO/QSTART,INFO/QSTRAND "
     exact_cmd += f"| bcftools +fill-tags | bgzip > {out_dir}/exact.vcf.gz\n"
     exact_cmd += f"tabix {out_dir}/exact.vcf.gz"
