@@ -108,7 +108,7 @@ etc ...
 
 Once all of the samples have been processed, create the stats via:
 ```
-python only_svs.py input.vcf.gz | truvari truv2df -v -i -f /dev/stdin output.jl
+`bash make_stats.sh grch38/exact/exact.vcf.gz`
 ```
 
 Consolidate the stats with `python merge_stats.py *.jl` where  `*.jl` are all
