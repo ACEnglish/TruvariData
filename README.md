@@ -64,10 +64,12 @@ A helper script `parallel_helpers/make_all_mapping_jobs.sh` can make per-sample 
 If you collect per-haplotype mapping logs from `mapping.sh`, you can build a table from all the stats generated.
 See consolidate_mapping_stats.py for details. This summary is also inside `stats/asm_mapstat.jl`
 
-## Merge haplotypes
+## Exact Intra-merge
 Merge the two haplotype vcf files together using
   
-  `bash merge_haps.sh sample.hap1.var.vcf.gz sample.hap2.var.vcf.gz sample output/path/var.vcf.gz`
+```bash
+bash merge_haps.sh sample.hap1.var.vcf.gz sample.hap2.var.vcf.gz sample output/path/var.vcf.gz
+```
 
 This creates a diploid vcf file name `sample.vcf.gz` and its index. This is the start of
 our 'exact' merge VCFs. At this point, the files should be orgainzed in the below file
@@ -76,18 +78,18 @@ structure, thus the 4th argument 'output/path/var.vcf.gz'
 ## File structure
 
 The per-sample vcfs are organized into sub-directories starting with the exact vcf path
-`data/reference/project/sample/merge_strategy.vcf.gz` (e.g. `data/chm13/li/NA12878/exact.vcf.gz`)
+`data/reference/project/sample/merge_strategy.vcf.gz` (e.g. `data/intra_merge/chm13/li/NA12878/exact.vcf.gz`)
 Be sure to create the index for the VCFs, also
 
-## Making per-sample collapsed VCFs
+## Strict/Loose Intra-merge
+Run truvari to collapse the exact intra-merge vcfs 
 
-Run per-sample strict/exact collapsing using
 ```bash
-	single_sample_collapse.sh $exact_vcf_path reference.fa
+bash single_sample_collapse.sh $exact_vcf_path reference.fa
 ```
 Where `$exact_vcf_path` is described above in File Structure.
 
-This will run `truvari collapse` for exact and for loose merging and place them
+This will run `truvari collapse` for strict and for loose merging and place them
 in the appropriate directory. For example `data/chm13/li/NA12878/strict.vcf.gz` 
 
 Each collapse also produces `removed.strict.vcf.gz`, vcf indexes, and logs in `collapse.strict.log`
@@ -102,7 +104,7 @@ bash make_stats.sh data/chm13/exact.vcf.gz
 
 Once these are all created, run
 ```bash
-python consolidate_stats.py data/ stats/single_sample_stats.jl
+python consolidate_stats.py data/intra_merge single_sample_stats.jl
 ```
 
 This will look for all subdirectories that have subdirectories that have subdirectories
@@ -110,30 +112,33 @@ containing '.jl' files. (a.k.a. reference/project/sample/merge_strategy.jl)
 So that it can append columns of those path metadata information to each row, drop the
 index, and make a usable dataframe for the SVCharacteristics notebook.
 
-## Making multi-sample VCFs
+## Inter-sample merging
 
-File structure  
-In a directory, not the same as the single-sample (`data/` used above), we will create
-all the combinations of merges. For a single reference, we need to take all the exact 
+We now merge between samples. This needs to have a specific file-structure, also.
+In a directory,  (e.g. `data/inter_merge`), we will create all the combinations of 
+merges. For a single reference, we need to take all the exact 
 merges and then do an exact merge to create `exact.exact.vcf.gz`
 
 Do this by calling
 ```bash
-python multi_merge.py in_dir out_dir reference.fa > the_merge_script.sh
+python multi_merge.py data/intra_merge data/inter_merge/chm13 data/references/chm13.fa > the_merge_script.sh
 ```
 
-This will create all the commands needed to make all combinations of merges inside of
-`out_dir/exact/exact.vcf.gz ,  out_dir/exact/strict.vcf.gz , etc `
+This will create all the commands needed to make all combinations of merges for a single reference.
+Repeat for each reference.
 
-## Multi-sample stats
+## Inter-merge stats
 
 Once all of the samples have been processed, create the stats via
 ```bash
 bash make_stats.sh grch38/exact/exact.vcf.gz
 ```
 
-Consolidate the stats with `python merge_stats.py *.jl` where  `*.jl` are all
-from  one of `out_dirs` made during the multi-sample merge step. Note that 
+Consolidate the stats with 
+```bash
+python merge_stats.py *.jl
+```
+where  `*.jl` are all from the `intra_merge` made during the multi-sample merge step. Note that 
 this assumes that `out_dir` is the name of a reference.
 
 ## Build the paragraph multi-sample VCFs
@@ -155,7 +160,6 @@ reciprocal overlap merging. We then downloaded three other SV merging tools to c
 
 - [SURVIVOR v1.0.6](https://github.com/fritzsedlazeck/SURVIVOR)
 - [Jasmine v1.1](https://github.com/mkirsche/Jasmine)
-- [svimmer v0.1](https://github.com/DecodeGenetics/svimmer)
 
 Using the strict intra-sample merge SVs, we ran each program with default parameters.  
 First, collect the full paths to each of the vcfs you want to merge via
@@ -164,8 +168,7 @@ find /full/path/to/data/intra_merge/chm13/ -name "strict.vcf.gz"  > input_files.
 ```
 
 Next, edit `perform_other_merges.sh` so that each of the programs' executable are pointed to
-in their correct variable. Note that you'll also need to change the sequence name generation
-for some references during the svimmer step.
+in their correct variable. 
 Run this script inside of the working directory e.g. `data/other_merges/grch38/`.
 ```bash
 bash perform_other_merges.sh input_files.txt
@@ -174,12 +177,8 @@ Note this creates a lot of temporay files to reformat things to accommodate thes
 All the temporary files are stored in the `pwd`/temp and can be removed without affecting downstream
 steps of this pipeline.
 
-AFs were measured using `bcftools +fill-tags`  
-Jasmine and svimmer don't preserve genotype information from the input VCFs, so AF
-couldn't be measured
-
-Additionally, to facilitate stats generation of these files, you can soft-link the job-libs of the truvari
-runs from their earlier inter_merge: e.g. `ln -s data/inter_merge/grch38/strict/strict.jl truvari.S.jl`
+Additionally, to facilitate stats generation of these files, you can soft-link the joblibs of the truvari
+and exact runs from the earlier inter_merge: e.g. `ln -s data/inter_merge/grch38/strict/strict.jl truvari.S.jl`
 
 ## Other merges stats consolidation
 I'll make a script to pull it all and make a dataframe which will be input for the notebook
