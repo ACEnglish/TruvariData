@@ -150,25 +150,39 @@ modified version of paragraph https://github.com/ACEnglish/paragraph
 
 ## Other merges
 
-To compare other merging methods, we made a custom script `naieve_50.py` to do 50%
+To compare other merging methods, we made a custom script `naive_50.py` to do 50%
 reciprocal overlap merging. We then downloaded three other SV merging tools to compare.
 
 - [SURVIVOR v1.0.6](https://github.com/fritzsedlazeck/SURVIVOR)
 - [Jasmine v1.1](https://github.com/mkirsche/Jasmine)
 - [svimmer v0.1](https://github.com/DecodeGenetics/svimmer)
 
-Using the strict intra-sample merge SVs, we ran each program with default parameters.
-
+Using the strict intra-sample merge SVs, we ran each program with default parameters.  
+First, collect the full paths to each of the vcfs you want to merge via
 ```bash
-SURVIVOR merge grch38_plain.txt 500 1 1 0 1 50 survivor.vcf
-run.sh file_list=grch38_plain.txt out_file=jasmine.vcf threads=48
-python svimmer --threads 48 grch38_gzip.txt \
-	$(for i in $(seq 1 22) X Y; do echo -n chr$i " "; done) > svimmer.vcf
+find /full/path/to/data/intra_merge/chm13/ -name "strict.vcf.gz"  > input_files.txt
 ```
+
+Next, edit `perform_other_merges.sh` so that each of the programs' executable are pointed to
+in their correct variable. Note that you'll also need to change the sequence name generation
+for some references during the svimmer step.
+Run this script inside of the working directory e.g. `data/other_merges/grch38/`.
+```bash
+bash perform_other_merges.sh input_files.txt
+```
+Note this creates a lot of temporay files to reformat things to accommodate these programs.
+All the temporary files are stored in the `pwd`/temp and can be removed without affecting downstream
+steps of this pipeline.
 
 AFs were measured using `bcftools +fill-tags`  
 Jasmine and svimmer don't preserve genotype information from the input VCFs, so AF
 couldn't be measured
+
+Additionally, to facilitate stats generation of these files, you can soft-link the job-libs of the truvari
+runs from their earlier inter_merge: e.g. `ln -s data/inter_merge/grch38/strict/strict.jl truvari.S.jl`
+
+## Other merges stats consolidation
+I'll make a script to pull it all and make a dataframe which will be input for the notebook
 
 ## Short-read SV discovery
 !!Document how we made the short read discovery
