@@ -4,42 +4,63 @@ Investigating maximum short-read utility for structural variation
 
 This repository contains the workflow and notes for creating most of the data for this research
 
-# Requirements:
+# Setup
+## Requirements
 
-bcftools - 
-vcftools - 
-truvari - 
-minimap - 
-paftools - 
-paragraph - 
-biograph - v7.0
+Assembly mapping and variant calling
+- [bcftools](http://www.htslib.org/)
+- [vcftools](https://vcftools.github.io/index.html)
+- [truvari](https://github.com/spiralgenetics/truvari)
+- [minimap2/paftools](https://github.com/lh3/minimap2)
 
-# References
+Short-read SV discovery and genotyping
+- [biograph](https://github.com/spiralgenetics/biograph)
+- [manta](https://github.com/Illumina/manta)
+- [paragraph](https://github.com/ACEnglish/paragraph)
 
-Subset references to only Autosomes and X/Y.
-GRCh38
-hg19
-t2t chm13 v1.0
-PR1
+## Repo structure
+- scripts - Steps of the pipeline
+- notebooks - Analysis notebooks for plot generation
+- metadata - Mainly the sample metadata file
+- parallel_helpers - Scripts that helped me parallelize the steps
+- stats - Quick analysis joblib dataframes
 
-# Creating the per-sample SV calls
+## Genome References
+
+Any reference genome can be used. We chose to subset references to only Autosomes and X/Y.
+References need to be indexed using [`bwa index`](https://github.com/lh3/bwa). We have run
+on hg19, grch38, chm13, and pr1. PR1 is not presented in the publication.
+
+# Pipeline
+
+Below are the steps of the pipeline to create the data and generate summaries.
 
 ## Download haplotype fastas
-The haplotype fasta files are pulled from their public locations using `eichler_download.sh` and `li_download.sh`
+
+The haplotype fasta files are pulled from their public locations using 
+```bash
+bash eichler_download.sh
+bash li_download.sh
+```
 
 ## Assembly Stats:
-Calculate the basic assembly stats with [calN50](https://github.com/lh3/calN50)  
-And summarize with `n50_summary.py files.txt asm_fastastat.jl`  
-This summary is inside the repository's `stats/asm_fastastat.jl`
+
+Calculate the basic assembly stats with [calN50](https://github.com/lh3/calN50). This summary is inside the repository's `stats/asm_fastastat.jl`. An example `files.txt` is available in `metadata/assembly_fasta_meta.txt`
+```bash
+python n50_summary.py files.txt asm_fastastat.jl
+```  
 
 ## Haplotype mapping and variant calling
-Map each sample to a reference and call variants using mapping.sh
+Map each haplotype to a reference and call variants using mapping.sh
 
-  `bash mapping.sh haplotype.1.fasta sample.hap1 reference.fasta`
+```bash
+bash mapping.sh haplotype.1.fasta sample.hap1 reference.fasta
+```
 
 This creates an alignment file `sample.hap1.paf`, a vcf file `sample.hap1.var.vcf.gz`, and an index for that vcf.
+A helper script `parallel_helpers/make_all_mapping_jobs.sh` can make per-sample bash scripts.
 
-## Mapping Stats:
+## Mapping Stats
 If you collect per-haplotype mapping logs from `mapping.sh`, you can build a table from all the stats generated.
 See consolidate_mapping_stats.py for details. This summary is also inside `stats/asm_mapstat.jl`
 
@@ -52,7 +73,7 @@ This creates a diploid vcf file name `sample.vcf.gz` and its index. This is the 
 our 'exact' merge VCFs. At this point, the files should be orgainzed in the below file
 structure, thus the 4th argument 'output/path/var.vcf.gz'
 
-## File structure:
+## File structure
 
 The per-sample vcfs are organized into sub-directories starting with the exact vcf path
 `data/reference/project/sample/merge_strategy.vcf.gz` (e.g. `data/chm13/li/NA12878/exact.vcf.gz`)
@@ -60,7 +81,7 @@ Be sure to create the index for the VCFs, also
 
 ## Making per-sample collapsed VCFs
 
-Run per-sample strict/exact collapsing using:
+Run per-sample strict/exact collapsing using
 ```bash
 	single_sample_collapse.sh $exact_vcf_path reference.fa
 ```
@@ -73,12 +94,16 @@ Each collapse also produces `removed.strict.vcf.gz`, vcf indexes, and logs in `c
 
 ## Make single sample summary stats
 
-Beside a VCF, create a joblib DataFrame of just SVs >= 50bp using, for example:
+Beside a VCF, create a joblib DataFrame of just SVs >= 50bp using, for example
 
-`bash make_stats.sh data/chm13/exact.vcf.gz`
+```bash
+bash make_stats.sh data/chm13/exact.vcf.gz
+```
 
 Once these are all created, run
-`python consolidate_stats.py data/ stats/single_sample_stats.jl`
+```bash
+python consolidate_stats.py data/ stats/single_sample_stats.jl
+```
 
 This will look for all subdirectories that have subdirectories that have subdirectories
 containing '.jl' files. (a.k.a. reference/project/sample/merge_strategy.jl)
@@ -87,28 +112,24 @@ index, and make a usable dataframe for the SVCharacteristics notebook.
 
 ## Making multi-sample VCFs
 
-File structure:
+File structure  
 In a directory, not the same as the single-sample (`data/` used above), we will create
 all the combinations of merges. For a single reference, we need to take all the exact 
 merges and then do an exact merge to create `exact.exact.vcf.gz`
 
-Do this by calling:
+Do this by calling
 ```bash
 python multi_merge.py in_dir out_dir reference.fa > the_merge_script.sh
 ```
 
 This will create all the commands needed to make all combinations of merges inside of
-```
-out_dir/exact/exact.vcf.gz
-out_dir/exact/strict.vcf.gz
-out_dir/loose/strict.vcf.gz
-etc ...
-```
+`out_dir/exact/exact.vcf.gz ,  out_dir/exact/strict.vcf.gz , etc `
+
 ## Multi-sample stats
 
-Once all of the samples have been processed, create the stats via:
-```
-`bash make_stats.sh grch38/exact/exact.vcf.gz`
+Once all of the samples have been processed, create the stats via
+```bash
+bash make_stats.sh grch38/exact/exact.vcf.gz
 ```
 
 Consolidate the stats with `python merge_stats.py *.jl` where  `*.jl` are all
@@ -117,8 +138,7 @@ this assumes that `out_dir` is the name of a reference.
 
 ## Build the paragraph multi-sample VCFs
 
-Given one of the multi-sample merges, create a paragraph reference out of only the svs using:
-
+Given one of the multi-sample merges, create a paragraph reference out of only the svs using
 ```bash
  bash run_paragraphs.sh data/multi_merge/hg19/strict/strict.vcf.gz \
  						data/reference/hg19/hg19.fa \
@@ -128,33 +148,38 @@ Given one of the multi-sample merges, create a paragraph reference out of only t
 This will try to run paragraph just enough to make the reference inputs needed to run a
 modified version of paragraph https://github.com/ACEnglish/paragraph
 
-
-## Benchmarking single-sample discovery
-ABCDE
-
 ## Other merges
 
 To compare other merging methods, we made a custom script `naieve_50.py` to do 50%
 reciprocal overlap merging. We then downloaded three other SV merging tools to compare.
 
-SURVIVOR v1.0.6 https://github.com/fritzsedlazeck/SURVIVOR
-Jasmine v1.1 https://github.com/mkirsche/Jasmine
-svimmer v0.1 https://github.com/DecodeGenetics/svimmer
+- [SURVIVOR v1.0.6](https://github.com/fritzsedlazeck/SURVIVOR)
+- [Jasmine v1.1](https://github.com/mkirsche/Jasmine)
+- [svimmer v0.1](https://github.com/DecodeGenetics/svimmer)
 
 Using the strict intra-sample merge SVs, we ran each program with default parameters.
 
-```
+```bash
 SURVIVOR merge grch38_plain.txt 500 1 1 0 1 50 survivor.vcf
 run.sh file_list=grch38_plain.txt out_file=jasmine.vcf threads=48
 python svimmer --threads 48 grch38_gzip.txt \
 	$(for i in $(seq 1 22) X Y; do echo -n chr$i " "; done) > svimmer.vcf
 ```
 
-AFs were measured using `bcftools +fill-tags`
+AFs were measured using `bcftools +fill-tags`  
 Jasmine and svimmer don't preserve genotype information from the input VCFs, so AF
 couldn't be measured
 
-# Benchmarking ref-vcf  genotyping (BioGraph)
+## Short-read SV discovery
+!!Document how we made the short read discovery
+
+## Short-read SV genoyping
+!! Document how we made the short read genotyping
+
+## Benchmarking short-read discovery
+ABCDE
+
+## Benchmarking short-read genotyping
 
 1) Create a single VCF per sample:
 vcf-concat grch38.chr*.vcf.gz | bgzip > grch38.wg.vcf.gz
