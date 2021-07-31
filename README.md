@@ -104,7 +104,7 @@ bash make_stats.sh data/chm13/exact.vcf.gz
 
 Once these are all created, run
 ```bash
-python consolidate_stats.py data/intra_merge single_sample_stats.jl
+python consolidate_intra_stats.py data/intra_merge single_sample_stats.jl
 ```
 
 This will look for all subdirectories that have subdirectories that have subdirectories
@@ -136,7 +136,7 @@ bash make_stats.sh grch38/exact/exact.vcf.gz
 
 Consolidate the stats with 
 ```bash
-python merge_stats.py *.jl
+python consolidate_inter_stats.py *.jl
 ```
 where  `*.jl` are all from the `intra_merge` made during the multi-sample merge step. Note that 
 this assumes that `out_dir` is the name of a reference.
@@ -177,11 +177,8 @@ Note this creates a lot of temporay files to reformat things to accommodate thes
 All the temporary files are stored in the `pwd`/temp and can be removed without affecting downstream
 steps of this pipeline.
 
-Additionally, to facilitate stats generation of these files, you can soft-link the joblibs of the truvari
+Additionally, to facilitate the notebook summary of these files, you can soft-link the joblibs of the truvari
 and exact runs from the earlier inter_merge: e.g. `ln -s data/inter_merge/grch38/strict/strict.jl truvari.S.jl`
-
-## Other merges stats consolidation
-I'll make a script to pull it all and make a dataframe which will be input for the notebook
 
 ## Short-read SV discovery
 !!Document how we made the short read discovery
