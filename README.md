@@ -208,7 +208,8 @@ python multi_sample_vcf_to_df.py data/paragraph_ref/sv_only.vcf.gz data/paragrap
 
 Turn the paragraph results into a single dataframe 
 """
-python paragraph_consolidate.py data/paragraph_ref/sv_only.df \
-                 data/short_read_calls/genotyping/paragraph/
+python genotype_consolidate.py data/paragraph_ref/sv_only.df paragraph \
+                 data/short_read_calls/genotyping/paragraph/results.jl \
+				data/short_read_calls/genotyping/paragraph/*.vcf.gz
 """
-This creates `results.jl` inside of the paragraph directory
+Run the same thing for biograph
