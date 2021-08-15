@@ -145,9 +145,9 @@ this assumes that `out_dir` is the name of a reference.
 
 Given one of the multi-sample merges, create a paragraph reference out of only the svs using
 ```bash
- bash run_paragraphs.sh data/multi_merge/hg19/strict/strict.vcf.gz \
- 						data/reference/hg19/hg19.fa \
-						data/paragraph/hg19
+ bash run_paragraphs.sh data/multi_merge/grch38/strict/strict.vcf.gz \
+ 						data/reference/grch38/grch38.fa \
+						data/paragraph_ref
 ```
 
 This will try to run paragraph just enough to make the reference inputs needed to run a
@@ -181,17 +181,34 @@ Additionally, to facilitate the notebook summary of these files, you can soft-li
 and exact runs from the earlier inter_merge: e.g. `ln -s data/inter_merge/grch38/strict/strict.jl truvari.S.jl`
 
 ## Short-read SV discovery
-!!Document how we made the short read discovery
+
+Used existing Manta calls  
+Ran BioGraph v7.0  
+Calls organized into
+`data/short_read_calls/discovery/[biograph|manta]/[sample].[reference].vcf.gz`
+Note manta was only run on grch38, so reference==sv
 
 ## Short-read SV genoyping
-!! Document how we made the short read genotyping
+
+Ran Paragraph and BioGraph v7.0
+BioGraph results are in `data/short_read_calls/genotyping/biograph/[sample]/[reference].results.vcf.gz`
+Paragraph results are in `data/short_read_calls/genotyping/paragraph/[sample].vcf.gz`
+Note only chm13 and grch38 are available.
+
 
 ## Benchmarking short-read discovery
 ABCDE
 
 ## Benchmarking short-read genotyping
 
-1) Create a single VCF per sample:
-vcf-concat grch38.chr*.vcf.gz | bgzip > grch38.wg.vcf.gz
+Make the base vcf genotypes data from the paragraph sv_only.vcf.gz
+"""
+python multi_sample_vcf_to_df.py data/paragraph_ref/sv_only.vcf.gz data/paragraph_ref/sv_only.df
+"""
 
-2) run gtstats.sh on the base/comparison files to make the files
+Turn the paragraph results into a single dataframe 
+"""
+python paragraph_consolidate.py data/paragraph_ref/sv_only.df \
+                 data/short_read_calls/genotyping/paragraph/
+"""
+This creates `results.jl` inside of the paragraph directory
