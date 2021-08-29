@@ -197,7 +197,18 @@ Note only chm13 and grch38 are available.
 
 
 ## Benchmarking short-read discovery
-ABCDE
+
+Run the script with 
+```
+bash run_truvari_bench.sh data/ benchmarking_output/ data/short_read_calls/discovery/manta/*.vcf.gz
+```
+Where
+```
+Arg1 - the base directory of the data
+Arg2 - output destination directory
+Arg* - All the remaining args are the discovery VCFs.
+```
+This assumes that the vcfs have the structure of `<sample>.<reference>.vcf.gz`
 
 ## Benchmarking short-read genotyping
 

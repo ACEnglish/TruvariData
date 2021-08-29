@@ -1,14 +1,17 @@
 # Run truvari bench and create a dataframe of all the results
 
 # 1 - Make the reference lookup ready
-REFBASE=/home/english/science/english/msru/data/reference
+DATADIR=$1
+shift
+
+REFBASE=${DATADIR}/reference
 declare -A REFLOOKUP
 REFLOOKUP[chm13]=$REFBASE/chm13/chm13.draft_v1.0.fasta
 REFLOOKUP[grch38]=$REFBASE/grch38/GRCh38_1kg_mainchrs.fa
 REFLOOKUP[hg19]=$REFBASE/hg19/hg19.fa
 
 # 2 - Have the base VCFs ready
-BASEVCF=/home/english/science/english/msru/data/inter_merge/
+BASEVCF=$DATADIR/inter_merge/
 #chm13/strict/strict.vcf.gz
 
 # 3 - Set the output directory
