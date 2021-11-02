@@ -15,7 +15,7 @@ outdir=$3
 
 mkdir -p $outdir
 
-python $ONLYSV $vcf | bgzip > ${outdir}/sv_only.vcf.gz
+python $ONLYSV $vcf | truvari anno numneigh | bgzip > ${outdir}/sv_only.vcf.gz
 bash $PARSH $outdir/sv_only.vcf.gz ${outdir}/paragraph $reference 
 
 
