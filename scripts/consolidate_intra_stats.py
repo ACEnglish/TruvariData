@@ -12,14 +12,16 @@ SZBINTY = CategoricalDtype(categories=truvari.SZBINS[1:], ordered=True)
 
 all_data = []
 for jl in Path(sys.argv[1]).rglob("*.jl"):
-    print(jl)
     split_path = str(jl).split('/')
+    ref, proj, samp, merge = split_path[-4:]
+    merge = merge[:-len(".jl")]
+    if merge.startswith("removed"):
+        continue
+    print(jl)
     d = joblib.load(jl)
     d.reset_index(inplace=True)
     d.drop(columns=['key', 'id', 'qual', 'filter', 'is_pass'], inplace=True)
     d["GT"] = d["GT"].apply(lambda x: truvari.get_gt(x).name)
-    ref, proj, samp, merge = split_path[-4:]
-    merge = merge[:-len(".jl")]
     d["reference"] = ref
     d["project"] = proj
     d["sample"] = samp

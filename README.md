@@ -196,7 +196,12 @@ Paragraph results are in `data/short_read_calls/genotyping/paragraph/[sample].vc
 Note only chm13 and grch38 are available.
 
 
+## Create annotated SV Only VCFs
+
+How did you do this? trf and numneigh and only_svs.py, that's somewhere.
+
 ## Benchmarking short-read discovery
+
 
 Run the script with 
 ```
@@ -224,3 +229,15 @@ python genotype_consolidate.py data/paragraph_ref/sv_only.df paragraph \
 				data/short_read_calls/genotyping/paragraph/*.vcf.gz
 """
 Run the same thing for biograph
+
+## Genes
+
+Gencode.v35 bed tracks were downloaded from UCSC genome browser. These bed files were merged and expanded using
+
+```
+bedtools merge -i input.bed.gz | python bed_expander.py reference/genome.fa.fai | bedtools sort | bgzip > output.bed.gz
+tabix output.bed.gz
+```
+Note the hg19 bed also needed `sed 's/chr//'`.
+
+These bed files can be used by run_truvari to make the recall for gene regions.
