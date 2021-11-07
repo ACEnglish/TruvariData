@@ -1,5 +1,13 @@
 """
-Join a vcf to the bed files
+Make the commands that would run samples' vcf against their bed
+
+input
+    arg1: the path to all the coverage beds
+    arg2+: The input VCF files
+
+This tries to parse the names
+
+Note - I don't feel like making this reusable by actually implementing the args
 """
 import os
 import glob
