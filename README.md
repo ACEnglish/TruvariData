@@ -64,6 +64,13 @@ A helper script `parallel_helpers/make_all_mapping_jobs.sh` can make per-sample 
 If you collect per-haplotype mapping logs from `mapping.sh`, you can build a table from all the stats generated.
 See consolidate_mapping_stats.py for details. This summary is also inside `stats/asm_mapstat.jl`
 
+## Calculating assembly coverage per-haplotype
+Given the paf files, create a coverage bed for each haplotype
+
+```bash
+bedtools genomecov -i <(cut -f6,8,9 sample.hap1.paf | bedtools sort) -g reference.fa.fai -bga > sample.hap1.cov.bed
+```
+
 ## Exact Intra-merge
 Merge the two haplotype vcf files together using
   
@@ -94,6 +101,14 @@ This will run `truvari collapse` for strict and for loose merging and place them
 in the appropriate directory. For example `data/chm13/li/NA12878/strict.vcf.gz` 
 
 Each collapse also produces `removed.strict.vcf.gz`, vcf indexes, and logs in `collapse.strict.log`
+
+## Annotate with assembly coverage
+Run the following to make a new VCF that has assembly coverage information
+
+```bash
+python intra_hc_region_annotate.py input.vcf.gz sample.hap1.cov.bed sample.hap2.cov.bed | bgzip > output.vcf.gz
+```
+After running, I replace input.vcf.gz with output.vcf.gz
 
 ## Make single sample summary stats
 
