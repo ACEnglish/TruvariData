@@ -84,6 +84,7 @@ Be sure to create the index for the VCFs, also
 ## Strict/Loose Intra-merge
 Run truvari to collapse the exact intra-merge vcfs 
 
+NOTE: Here is where I need to run the coverage annotation
 ```bash
 bash single_sample_collapse.sh $exact_vcf_path reference.fa
 ```
@@ -201,7 +202,6 @@ Note only chm13 and grch38 are available.
 How did you do this? trf and numneigh and only_svs.py, that's somewhere.
 
 ## Benchmarking short-read discovery
-
 
 Run the script with 
 ```
