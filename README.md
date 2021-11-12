@@ -91,7 +91,6 @@ Be sure to create the index for the VCFs, also
 ## Strict/Loose Intra-merge
 Run truvari to collapse the exact intra-merge vcfs 
 
-NOTE: Here is where I need to run the coverage annotation
 ```bash
 bash single_sample_collapse.sh $exact_vcf_path reference.fa
 ```

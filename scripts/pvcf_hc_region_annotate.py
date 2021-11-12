@@ -27,12 +27,8 @@ mat_lookup = bed_to_tree(mat_bed_fn)
 
 vcf = pysam.VariantFile(vcf_fn)
 n_header = vcf.header.copy()
-n_header.add_line(('##INFO=<ID=A1COV,Number=.,Type=Integer,'
-                   'Description="Coverage of First Assembly of start/end breakpoints">'))
-n_header.add_line(('##INFO=<ID=A2COV,Number=.,Type=Integer,'
-                   'Description="Coverage of Second Assembly of start/end breakpoints">'))
-n_header.add_line(('##INFO=<ID=DIPCOV,Number=0,Type=Flag,'
-                   'Description="Singly covered by each haplotype"'))
+n_header.add_line(('##FORMAT=<ID=DIPCOV,Number=1,Type=Integer,'
+                   'Description="Singly covered by each haplotype (bool: 0, 1)"'))
 out = pysam.VariantFile("/dev/stdout", 'w', header=n_header)
 
 for entry in vcf:
@@ -42,13 +38,13 @@ for entry in vcf:
     entry = truvari.copy_entry(entry, n_header)
     up_pos = list(mat_lookup[entry.chrom].at(entry.start))[0].data
     dn_pos = list(mat_lookup[entry.chrom].at(entry.stop))[0].data
-    entry.info["A1COV"] = [up_pos, dn_pos]
+    #entry.info["A1COV"] = [up_pos, dn_pos]
     is_dip = up_pos == 1 and dn_pos == 1
     up_pos = list(pat_lookup[entry.chrom].at(entry.start))[0].data
     dn_pos = list(pat_lookup[entry.chrom].at(entry.stop))[0].data
-    entry.info["A2COV"] = [up_pos, dn_pos]
+    #entry.info["A2COV"] = [up_pos, dn_pos]
     is_dip = is_dip and up_pos == 1 and dn_pos == 1
-    entry.info["DIPCOV"] = is_dip
+    entry.samples[0]["DIPCOV"] = int(is_dip)
 
     out.write(entry)
         
