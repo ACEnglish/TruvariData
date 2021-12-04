@@ -1,0 +1,3 @@
+GRCh38	/users/u233287/scratch/insertion_ref/reference/grch38/GRCh38_1kg_mainchrs.fa.fai
+hg19.fa	/users/u233287/scratch/insertion_ref/reference/hg19/hg19.fa.fai
+chm13.draft	/users/u233287/scratch/insertion_ref/reference/chm13/chm13.draft_v1.0.fasta.fai
