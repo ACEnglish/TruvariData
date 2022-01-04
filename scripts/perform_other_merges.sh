@@ -3,7 +3,7 @@ set -e
 input_file=$1
 # Update these for your paths
 survivor=/users/u233287/scratch/insertion_ref/msru/software/SURVIVOR-1.0.6/Debug/SURVIVOR
-jasmine=/users/u233287/scratch/insertion_ref/msru/software/Jasmine/run.sh
+jasmine=/users/u233287/scratch/misc_software/Jasmine-1.1.4/run.sh
 # skipping this
 #svimmer=/users/u233287/scratch/insertion_ref/msru/software/svimmer-0.1/svimmer
 # See the IMPORTANT note below for svimmer
@@ -36,7 +36,7 @@ cat temp/survivor.1000.vcf | sed 's/\.\/\./0\/0/g' | vcf-sort | bcftools +fill-t
 tabix survivor.1000.vcf.gz
 
 echo "Running jasmine"
-$jasmine file_list=plain.txt out_file=jasmine.vcf threads=$nproc
+$jasmine file_list=plain.txt out_file=jasmine.vcf threads=$nproc --output_genotypes --default_zero_genotype
 $DIR/vcf_compress.sh jasmine.vcf
 
 echo "Running Naive"

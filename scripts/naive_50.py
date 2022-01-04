@@ -259,7 +259,7 @@ def edit_collap_entry(entry, match, match_id, outputs):
     new_entry = truvari.copy_entry(entry, outputs["c_header"])
     new_entry.info["CollapseId"] = match_id
     new_entry.info["TruScore"] = match.score
-    truvari.bench.annotate_tp(new_entry, match)
+    annotate_tp(new_entry, match)
     return new_entry
 
 def hap_resolve(entryA, entryB):
@@ -314,7 +314,7 @@ def edit_output_entry(entry, neighs, match_id, hap, outputs, nullconso=None):
     # Update with the first genotyped sample's information
     for samp_name in new_entry.samples:
         fmt = new_entry.samples[samp_name]
-        m_gt = truvari.stats.get_gt(fmt["GT"])
+        m_gt = truvari.get_gt(fmt["GT"])
         # Update the null_consolidates first - these will replace with the first non-null
         for key in nullconso:
             if fmt[key] is None:
@@ -333,7 +333,7 @@ def edit_output_entry(entry, neighs, match_id, hap, outputs, nullconso=None):
             assigned = False
             while not assigned and idx < len(neighs):
                 s_fmt = neighs[idx][0].samples[samp_name]
-                s_gt = truvari.stats.get_gt(s_fmt["GT"])
+                s_gt = truvari.get_gt(s_fmt["GT"])
                 if s_gt not in [truvari.GT.NON, truvari.GT.REF]:
                     assigned = True
                     for key in [_ for _ in fmt if _ not in nullconso]:
@@ -355,7 +355,7 @@ def find_neighbors(base_entry, match_id, reference, matched_calls, args, outputs
     fetch_start = max(0, astart - args.refdist - 1)
     fetch_end = aend + args.refdist + 1
     for comp_entry in outputs['seek_vcf'].fetch(base_entry.chrom, fetch_start, fetch_end):
-        comp_key = truvari.entry_to_key('b', comp_entry)
+        comp_key = truvari.entry_to_key(comp_entry)
         # Don't collapse with anything that's already been matched
         # Which will include looking at itself
         if matched_calls[comp_key]:
@@ -396,7 +396,7 @@ def select_maxqual(entry, neighs):
     else:
         swap = neighs[max_qual_idx]
         base_entry = swap.entry
-        key = truvari.entry_to_key('b', entry)
+        key = truvari.entry_to_key(entry)
         neighs[max_qual_idx] = COLLAPENTRY(entry, swap.match, swap.match_id, key)
     return base_entry, neighs
 
@@ -422,7 +422,7 @@ def collapse_main(cmdargs):
     kept_cnt = 0
     collap_cnt = 0
     for match_id, base_entry in enumerate(outputs["input_vcf"]):
-        base_key = truvari.entry_to_key('b', base_entry)
+        base_key = truvari.entry_to_key(base_entry)
         if matched_calls[base_key]:
             continue
         
