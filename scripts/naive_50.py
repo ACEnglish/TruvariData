@@ -258,7 +258,7 @@ def edit_collap_entry(entry, match, match_id, outputs):
     """
     new_entry = truvari.copy_entry(entry, outputs["c_header"])
     new_entry.info["CollapseId"] = match_id
-    new_entry.info["TruScore"] = match.score
+    new_entry.info["TruScore"] = int(match.score)
     annotate_tp(new_entry, match)
     return new_entry
 

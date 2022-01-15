@@ -46,10 +46,10 @@ python $DIR/naive_50.py -i gzvcfs/temp.vcf.gz -O .5 -p 0 -o naive.vcf --chain
 $DIR/vcf_compress.sh naive.vcf
 
 echo "Building dataframes"
-truvari truv2df -i -v survivor.500.vcf.gz survivor.500.jl
-truvari truv2df -i -v survivor.1000.vcf.gz survivor.1000.jl
-truvari truv2df -i -v jasmine.vcf.gz jasmine.jl
-truvari truv2df -i -v naive.vcf.gz naive.jl
+truvari vcf2df -i survivor.500.vcf.gz survivor.500.jl
+truvari vcf2df -i survivor.1000.vcf.gz survivor.1000.jl
+truvari vcf2df -i jasmine.vcf.gz jasmine.jl
+truvari vcf2df -i naive.vcf.gz naive.jl
 
 #echo "Running svimmer <-- the release didn't work. It would hang"
 # IMPORTANT This need the 'chr' removed when running different references

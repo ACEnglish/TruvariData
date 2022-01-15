@@ -246,6 +246,18 @@ Run the same thing for biograph
 
 ## Genes
 
+Where did the GRCH38_CMRG bed come from.
+
+For each of the other merges' VCFs, run bpovl, turn vcf into dataframe, and do the annotation consolidation join
+```
+for i in *.vcf.gz;
+do
+truvari anno bpovl -i $i -a ../GRCh38_CMRG_benchmark_gene_coordinates.bed -o ${i%.vcf.gz}.CBGcoords.anno.jl
+truvari vcf2df -i ${i} ${i%.vcf.gz}.jl
+done
+python consolidate_dfs.py
+```
+
 Gencode.v35 bed tracks were downloaded from UCSC genome browser. These bed files were merged and expanded using
 
 ```

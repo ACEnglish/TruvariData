@@ -16,6 +16,7 @@ REFLOOKUP[grch38]=$REFBASE/grch38/GRCh38_1kg_mainchrs.fa
 REFLOOKUP[sv]=$REFBASE/grch38/GRCh38_1kg_mainchrs.fa
 REFLOOKUP[hg19]=$REFBASE/hg19/hg19.fa
 
+
 # For looking only inside of genes
 declare -A BEDLOOKUP
 BEDLOOKUP[chm13]=$DATADIR/genes/chm13.merged.gencode35.bed
@@ -26,13 +27,28 @@ BEDLOOKUP[hg19]=$DATADIR/genes/hg19.merged.gencode35.bed
 # 2 - Have the base VCFs ready
 declare -A BASEVCF
 # Truvari merges
-BASEVCF[chm13]=$DATADIR/inter_merge/final/chm13.sv.vcf.gz
-BASEVCF[grch38]=$DATADIR/inter_merge/final/grch38.sv.vcf.gz
-BASEVCF[sv]=$DATADIR/inter_merge/final/grch38.sv.vcf.gz
-BASEVCF[hg19]=$DATADIR/inter_merge/final/hg19.sv.vcf.gz
-# Jasmine merges
+#BASEVCF[chm13]=$DATADIR/inter_merge/final/chm13.sv.vcf.gz
+#BASEVCF[grch38]=$DATADIR/inter_merge/final/grch38.sv.vcf.gz
+#BASEVCF[sv]=$DATADIR/inter_merge/final/grch38.sv.vcf.gz
+#BASEVCF[hg19]=$DATADIR/inter_merge/final/hg19.sv.vcf.gz
+
+# Jasmine merges - need header fixed
+#BASEVCF[chm13]=$DATADIR/other_merges/chm13/jasmine.vcf.gz
+#BASEVCF[grch38]=$DATADIR/other_merges/grch38/jasmine.vcf.gz
+#BASEVCF[sv]=$DATADIR/other_merges/grch38/jasmine.vcf.gz
+#BASEVCF[hg19]=$DATADIR/other_merges/hg19/jasmine.vcf.gz
+
 # Naive merges
+BASEVCF[chm13]=$DATADIR/other_merges/chm13/naive.vcf.gz
+BASEVCF[grch38]=$DATADIR/other_merges/grch38/naive.vcf.gz
+BASEVCF[sv]=$DATADIR/other_merges/grch38/naive.vcf.gz
+BASEVCF[hg19]=$DATADIR/other_merges/hg19/naive.vcf.gz
+
 # SURVIVOR merges
+# BASEVCF[chm13]=$DATADIR/other_merges/chm13/survivor.1000.vcf.gz  
+# BASEVCF[grch38]=$DATADIR/other_merges/grch38/survivor.1000.vcf.gz  
+# BASEVCF[sv]=$DATADIR/other_merges/grch38/survivor.1000.vcf.gz  
+# BASEVCF[hg19]=$DATADIR/other_merges/hg19/survivor.1000.vcf.gz
 
 # 3 - Set the output directory
 OUTDIR=$1
