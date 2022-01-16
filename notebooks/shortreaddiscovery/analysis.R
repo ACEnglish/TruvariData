@@ -1,3 +1,9 @@
+# use docker to setup R easily
+# docker run --rm -p 8787:8787 --cpus=4 -e PASSWORD=yourpasswordhere rocker/rstudio
+
+# Update container with required libraries
+# docker exec -it <container_name> /bin/bash
+# apt-get -qq update && apt-get install -yq libxml2 liblzma-dev libbz2-dev libz-dev
 
 if (!requireNamespace("BiocManager", quietly = TRUE))
   install.packages("BiocManager")
@@ -15,6 +21,5 @@ length(my.regions)
 length(all.trf)
 length(my.mask)
 
-
-pt <- permTest(A=my.regions, B=all.trf, randomize.function=randomizeRegions,
-               evaluate.function=numOverlaps, genome=genome)
+pt <- permTest(A=my.regions, B=all.trf, ntimes=1000, randomize.function=randomizeRegions,
+               evaluate.function=numOverlaps, genome=genome, mask=my.mask)
