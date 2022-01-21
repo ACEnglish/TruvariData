@@ -12,7 +12,12 @@ bash simplest_case.sh hg19.fa NA24385.exact.intramerge.vcf.gz
 - Merges to GIAB
 bash merges_to_giab.sh hg19.fa giab.vcf.gz giab.include.bed exact.vcf.gz strict.vcf.gz 
 
-- Figure2:
+- Figure2b
+I need - sample, reference, merge, svtype for all.
+Then I can do the counts, for this section as well as all the plots.
+
+Though I also need het/hom ratio data pulled out somewhere... dangit or maybe its in the df
+
 Script to make the dataframe (I think I already have it), but it might be too big
 Clean Intra-Sample notebook
 
