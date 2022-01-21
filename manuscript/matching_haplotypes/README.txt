@@ -5,7 +5,7 @@ bash per_hap_bench.sh hg19.fa giab.vcf.gz giab.include.bed NA24385.exact.intrame
 - Simplest case of SV merging
 
 bash simplest_case.sh hg19.fa NA24385.exact.intramerge.vcf.gz
--> Figure2a uses this data
+Figure2a uses this `data/hg002_haps_sim.jl`, which needs to be used inside the Figures.ipynb
 
 - At this point, need to have run "Make single sample summary stats" from base directory
 
