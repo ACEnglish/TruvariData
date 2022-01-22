@@ -1,14 +1,12 @@
 Needs the inter-merge VCFs created as well as other-merges.
 
-Then turn each of them (SVonly) into DataFrames
-
 Organize them inside data/<reference>/<program>.vcf.gz
 
-Annotations that we need...
-TRF
-Repmask
-Gene Overlap
-AF
+Make sure annotations are on them
+truvari anno trf
+truvari anno Repmask
+truvari anno bpovl [tbd]
+bcftools +fill-tags
 
 I'm just going to keep these as the final versions. The other directories are temporary working dirs that I can just
 remove
@@ -24,9 +22,8 @@ data/grch38/exact.vcf.gz
   80365 DEL
  266836 INS
 data/chm13/exact.vcf.gz
- 229121 DEL
- 386329 INS
-
+ 121038 DEL
+ 208899 INS
 
 # All AFS
 find data -name "*.vcf.gz" | while read i;
