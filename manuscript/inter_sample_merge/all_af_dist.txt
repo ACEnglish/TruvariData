@@ -1,0 +1,91 @@
+svtype	AF	reference	merge
+DEL	0.06082905115350469	chm13	exact
+INS	0.035201634418499966	chm13	exact
+DUP		chm13	exact
+INV		chm13	exact
+NON		chm13	exact
+UNK		chm13	exact
+DEL	0.12786685277180068	chm13	jasmine
+INS	0.1289531355462271	chm13	jasmine
+DUP		chm13	jasmine
+INV		chm13	jasmine
+NON		chm13	jasmine
+UNK		chm13	jasmine
+DEL	0.10777663486306288	chm13	naive
+INS	0.09208205925209688	chm13	naive
+DUP		chm13	naive
+INV		chm13	naive
+NON		chm13	naive
+UNK		chm13	naive
+DEL	0.1520558440219441	chm13	survivor
+INS	0.13077989586812297	chm13	survivor
+DUP		chm13	survivor
+INV		chm13	survivor
+NON		chm13	survivor
+UNK		chm13	survivor
+DEL	0.078081473559011	chm13	truvari
+INS	0.06056489564036775	chm13	truvari
+DUP		chm13	truvari
+INV		chm13	truvari
+NON		chm13	truvari
+UNK		chm13	truvari
+DEL	0.08007667818170622	grch38	exact
+INS	0.038403336198069675	grch38	exact
+DUP		grch38	exact
+INV		grch38	exact
+NON		grch38	exact
+UNK		grch38	exact
+DEL	0.1279266068807777	grch38	jasmine
+INS	0.1289531355462271	grch38	jasmine
+DUP		grch38	jasmine
+INV		grch38	jasmine
+NON		grch38	jasmine
+UNK		grch38	jasmine
+DEL	0.13303540134384384	grch38	naive
+INS	0.14093694733403098	grch38	naive
+DUP		grch38	naive
+INV		grch38	naive
+NON		grch38	naive
+UNK		grch38	naive
+DEL	0.1769200854105871	grch38	survivor
+INS	0.19190579178426087	grch38	survivor
+DUP		grch38	survivor
+INV		grch38	survivor
+NON		grch38	survivor
+UNK		grch38	survivor
+DEL	0.10038939794852358	grch38	truvari
+INS	0.07619839659040549	grch38	truvari
+DUP		grch38	truvari
+INV		grch38	truvari
+NON		grch38	truvari
+UNK		grch38	truvari
+DEL	0.0808983388650697	hg19	exact
+INS	0.03842867695759726	hg19	exact
+DUP		hg19	exact
+INV		hg19	exact
+NON		hg19	exact
+UNK		hg19	exact
+DEL	0.12989884795214782	hg19	jasmine
+INS	0.13026671780761184	hg19	jasmine
+DUP		hg19	jasmine
+INV		hg19	jasmine
+NON		hg19	jasmine
+UNK		hg19	jasmine
+DEL	0.13543801607559522	hg19	naive
+INS	0.14279626851460123	hg19	naive
+DUP		hg19	naive
+INV		hg19	naive
+NON		hg19	naive
+UNK		hg19	naive
+DEL	0.1803625902582262	hg19	survivor
+INS	0.19430815333544205	hg19	survivor
+DUP		hg19	survivor
+INV		hg19	survivor
+NON		hg19	survivor
+UNK		hg19	survivor
+DEL	0.10157964544716083	hg19	truvari
+INS	0.07649919945021383	hg19	truvari
+DUP		hg19	truvari
+INV		hg19	truvari
+NON		hg19	truvari
+UNK		hg19	truvari
