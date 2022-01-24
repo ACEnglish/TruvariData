@@ -1,0 +1,68 @@
+2022-01-24 15:36:15,171 [INFO] Running /stornext/snfs5/next-gen/scratch/english/round2/pyenv/bin/truvari bench -b HG002_GRCh38_CMRG_SV_v1.00.vcf.gz --includebed HG002_GRCh38_CMRG_SV_v1.00.bed -c ../data/grch38/truvari.vcf.gz -f /users/u233287/scratch/insertion_ref/msru/data/reference/grch38/GRCh38_1kg_mainchrs.fa -o truvari_cmrg --cSample NA24385 --no-ref c
+2022-01-24 15:36:15,172 [INFO] Params:
+{
+    "base": "HG002_GRCh38_CMRG_SV_v1.00.vcf.gz",
+    "comp": "../data/grch38/truvari.vcf.gz",
+    "output": "truvari_cmrg",
+    "reference": "/users/u233287/scratch/insertion_ref/msru/data/reference/grch38/GRCh38_1kg_mainchrs.fa",
+    "giabreport": false,
+    "debug": false,
+    "prog": false,
+    "refdist": 500,
+    "pctsim": 0.7,
+    "buffer": 0.1,
+    "pctsize": 0.7,
+    "pctovl": 0.0,
+    "typeignore": false,
+    "use_lev": false,
+    "chunksize": 1000,
+    "gtcomp": false,
+    "bSample": null,
+    "cSample": "NA24385",
+    "sizemin": 50,
+    "sizefilt": 30,
+    "sizemax": 50000,
+    "passonly": false,
+    "no_ref": "c",
+    "includebed": "HG002_GRCh38_CMRG_SV_v1.00.bed",
+    "multimatch": false
+}
+2022-01-24 15:36:15,172 [INFO] Truvari version: 3.2.0-dev
+2022-01-24 15:36:15,313 [INFO] Including 545 bed regions
+2022-01-24 15:36:15,875 [INFO] Zipped 1537 variants. Counter({'comp': 1321, 'base': 216})
+2022-01-24 15:36:15,875 [INFO] 198 chunks of 1537 variants. Counter({'__filtered': 1116, 'base': 216, 'comp': 205})
+2022-01-24 15:36:15,875 [INFO] Results peek: 200 TP-base 16 FN 92.59% Recall
+2022-01-24 15:36:15,876 [INFO] Stats: {
+    "TP-base": 200,
+    "TP-call": 200,
+    "FP": 5,
+    "FN": 16,
+    "precision": 0.975609756097561,
+    "recall": 0.9259259259259259,
+    "f1": 0.9501187648456056,
+    "base cnt": 216,
+    "call cnt": 205,
+    "TP-call_TP-gt": 126,
+    "TP-call_FP-gt": 74,
+    "TP-base_TP-gt": 126,
+    "TP-base_FP-gt": 74,
+    "gt_concordance": 0.63,
+    "gt_matrix": {
+        "(1, 1)": {
+            "(1, 1)": 76,
+            "(0, 1)": 2,
+            "(1, 0)": 1
+        },
+        "(1, 0)": {
+            "(1, 0)": 21,
+            "(0, 1)": 26,
+            "(1, 1)": 4
+        },
+        "(0, 1)": {
+            "(0, 1)": 29,
+            "(1, 0)": 38,
+            "(1, 1)": 3
+        }
+    }
+}
+2022-01-24 15:36:15,887 [INFO] Finished bench
