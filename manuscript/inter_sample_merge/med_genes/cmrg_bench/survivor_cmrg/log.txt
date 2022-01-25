@@ -1,9 +1,9 @@
-2022-01-24 15:36:36,331 [INFO] Running /stornext/snfs5/next-gen/scratch/english/round2/pyenv/bin/truvari bench -b HG002_GRCh38_CMRG_SV_v1.00.vcf.gz --includebed HG002_GRCh38_CMRG_SV_v1.00.bed -c ../data/grch38/survivor.vcf.gz -f /users/u233287/scratch/insertion_ref/msru/data/reference/grch38/GRCh38_1kg_mainchrs.fa -o survivor_cmrg --cSample NA24385 --no-ref c
-2022-01-24 15:36:36,331 [INFO] Params:
+2022-01-25 00:12:19,891 [INFO] Running /stornext/snfs5/next-gen/scratch/english/round2/pyenv/bin/truvari bench -b HG002_GRCh38_CMRG_SV_v1.00.vcf.gz --includebed HG002_GRCh38_CMRG_SV_v1.00.bed -c ../data/grch38/survivor.vcf.gz -f /users/u233287/scratch/insertion_ref/msru/data/reference/grch38/GRCh38_1kg_mainchrs.fa -o cmrg_bench/survivor_cmrg --cSample NA24385 --no-ref c
+2022-01-25 00:12:19,892 [INFO] Params:
 {
     "base": "HG002_GRCh38_CMRG_SV_v1.00.vcf.gz",
     "comp": "../data/grch38/survivor.vcf.gz",
-    "output": "survivor_cmrg",
+    "output": "cmrg_bench/survivor_cmrg",
     "reference": "/users/u233287/scratch/insertion_ref/msru/data/reference/grch38/GRCh38_1kg_mainchrs.fa",
     "giabreport": false,
     "debug": false,
@@ -27,12 +27,12 @@
     "includebed": "HG002_GRCh38_CMRG_SV_v1.00.bed",
     "multimatch": false
 }
-2022-01-24 15:36:36,332 [INFO] Truvari version: 3.2.0-dev
-2022-01-24 15:36:36,473 [INFO] Including 545 bed regions
-2022-01-24 15:36:39,408 [INFO] Zipped 842 variants. Counter({'comp': 626, 'base': 216})
-2022-01-24 15:36:39,409 [INFO] 198 chunks of 842 variants. Counter({'__filtered': 438, 'base': 216, 'comp': 188})
-2022-01-24 15:36:39,409 [INFO] Results peek: 160 TP-base 56 FN 74.07% Recall
-2022-01-24 15:36:39,409 [INFO] Stats: {
+2022-01-25 00:12:19,892 [INFO] Truvari version: 3.2.0-dev
+2022-01-25 00:12:20,042 [INFO] Including 545 bed regions
+2022-01-25 00:12:22,015 [INFO] Zipped 842 variants. Counter({'comp': 626, 'base': 216})
+2022-01-25 00:12:22,015 [INFO] 198 chunks of 842 variants. Counter({'__filtered': 438, 'base': 216, 'comp': 188})
+2022-01-25 00:12:22,016 [INFO] Results peek: 160 TP-base 56 FN 74.07% Recall
+2022-01-25 00:12:22,016 [INFO] Stats: {
     "TP-base": 160,
     "TP-call": 160,
     "FP": 28,
@@ -64,4 +64,4 @@
         }
     }
 }
-2022-01-24 15:36:39,422 [INFO] Finished bench
+2022-01-25 00:12:22,031 [INFO] Finished bench

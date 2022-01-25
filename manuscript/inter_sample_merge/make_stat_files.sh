@@ -4,7 +4,7 @@ find data/ -name  "*.gz" | while read i
 do
     echo $i
     bcftools query -f "%INFO/SVTYPE\n" $i | sort| uniq -c 
-done > SVCount.txt #| python count_to_table.py
+done > SVCount.txt 
 
 # All AFs
 find data/ -name "*.vcf.gz" | while read i;
@@ -15,7 +15,7 @@ do
     bcftools query -i "SVTYPE=='INS'" -f "%INFO/AF\n" $i | awk '{tot += $1; cnt += 1} END {print tot / cnt}'
 done > AllAF.txt
 
-python counts_to_table.py SVCount.txt AllAF.txt table_counts.txt
+python count_to_table.py SVCount.txt AllAF.txt table_counts.txt
 
 # RepeatMasker Allele Counting
 find data/ -name "exact.vcf.gz" | while read i

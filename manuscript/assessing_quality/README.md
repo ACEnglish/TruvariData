@@ -25,7 +25,7 @@ Naive        6998  2058
 SURVIVOR     9055     2
 Truvari      5658  3398
 # Missing summary
-count      mean       std  min  50%   99%    max
+	   count      mean       std  min  50%   99%    max
 name
 Truvari   9056.0  1.885159  3.702441  0.0  0.0  19.0   55.0
 Jasmine   9056.0  4.430543  6.607730  0.0  2.0  31.0  108.0

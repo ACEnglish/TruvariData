@@ -18,4 +18,4 @@ python pvcf_byty_stats.py data/*/*.vcf.gz
 
 
 # Med Genes
-truvari anno bpovl [tbd]
+see `med_genes`

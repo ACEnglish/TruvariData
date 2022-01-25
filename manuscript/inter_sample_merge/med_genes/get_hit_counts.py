@@ -10,11 +10,17 @@ meta = [('BCFtools', "../data/grch38/exact.vcf.gz", "gene_anno/exact.jl"),
         ('SURVIVOR', "../data/grch38/survivor.vcf.gz", "gene_anno/survivor.jl"),
         ('Truvari', "../data/grch38/truvari.vcf.gz", "gene_anno/truvari.jl")
        ]
+
 parts = []
 
 anno = joblib.load("ensmbl.genes.jl")
 view_annos = anno[anno['feature'] == 'gene']
 
+#cmrg = pd.read_csv("GRCh38_CMRG_benchmark_gene_coordinates.bed", header=None)
+#cmrg.columns = ['chrom', 'start', 'end', 'name']
+#view_annos = anno[anno['gene_name'].isin(cmrg['name'])]
+
+af_dists = []
 for name, vcf_fn, vcf_anno_fn in meta:
     vcf = truvari.vcf_to_df(vcf_fn, with_info="True")
     vcf_anno = joblib.load(vcf_anno_fn)
@@ -25,6 +31,9 @@ for name, vcf_fn, vcf_anno_fn in meta:
 
     # subset the vcf to only hits
     hits = vcf.loc[view_vcf_anno['vcf_key'].unique()]
+    x = hits[["svtype", "AF"]].copy()
+    x["merge"] = name
+    af_dists.append(x)
 
     # Then pull out the SVTYPE and AF and Count
     cnts = hits.groupby(['svtype']).size().to_frame('count')
@@ -36,3 +45,6 @@ for name, vcf_fn, vcf_anno_fn in meta:
 
 parts = pd.concat(parts)
 parts.to_csv('merge_gene_hits.txt', sep='\t', index=False)
+
+af_dists = pd.concat(af_dists).reset_index()
+joblib.dump(af_dists, 'af_dists.jl', compress=9)
