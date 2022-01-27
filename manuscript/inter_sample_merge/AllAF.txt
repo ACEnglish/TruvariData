@@ -47,9 +47,9 @@ data/chm13/truvari.vcf.gz
 0.0780919
 0.0605649
 data/chm13/jasmine.vcf.gz
-0.128532
-0.127867
-0.128953
+0.0968331
+0.104145
+0.0904734
 data/chm13/survivor.vcf.gz
 0.14068
 0.152056
