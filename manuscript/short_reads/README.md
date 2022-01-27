@@ -24,10 +24,34 @@ Density experiments
 1) Need to create the short-read merges
 use `bash msru/scripts/short_read_perform_other_merges.sh`
 
-2) Run density on the long-reads (1kb)
-3) Run density on the short-reads (1kb)
-4) I need to do the intersections...
+2) Run density
+bash make_density.sh
+python do_density.py 
+
+4) Do the intersections
+
+```
+bcftools query -f "%INFO/SVTYPE\n" -R missing_candidates.bed ../inter_sample_merge/data/grch38/truvari.vcf.gz | sort | uniq -c 
+#    6082 DEL
+#   17991 INS
+bcftools query -f "%INFO/SVTYPE\n" ../inter_sample_merge/data/grch38/truvari.vcf.gz | sort | uniq -c 
+#   63418 DEL
+#  132287 INS
+bedtools intersect -c -a missing_candidates.bed -b ~/scratch/code/truvari/resources/grch38.simpleRepeat.truvari.bed.gz | awk '$4 == 0' | wc -l 
+# 360
+wc -l missing_candidates.bed 
+# 3719 missing_candidates.bed
+python -c 'print(1 - 360 / 3719)'
+# 0.9031997848884109
+```
+
 5) And then just regioneR
+
+
+
+
+
+
 
 
 
