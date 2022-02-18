@@ -13,6 +13,7 @@ hg19	exact	135810
 hg19	jasmine	82159
 hg19	naive	67468
 hg19	survivor	52235
+hg19	truvari	91499
 manta	exact	66939
 manta	jasmine	36405
 manta	naive	36504

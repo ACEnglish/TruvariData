@@ -33,7 +33,7 @@ with open(af, 'r') as fh:
         name = name.split('/')
         ref = name[1]
         merge = name[2].split('.')[0]
-        tot = float(inss)
+        tot = float(tot)
         dels = float(dels)
         inss = float(inss)
         data.loc[(ref, merge), 'tot_af'] = tot
