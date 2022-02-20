@@ -1,6 +1,6 @@
-# msru
+# Truvari Data
 
-Investigating maximum short-read utility for structural variation
+Investigating when two SVs are the same
 
 This repository contains the workflow and notes for creating most of the data for this research
 
