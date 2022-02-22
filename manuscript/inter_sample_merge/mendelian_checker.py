@@ -27,8 +27,8 @@ def parse_results(stdout, ref, method):
 
 results = []
 for vcf in glob.glob("data/*/*.vcf.gz"):
+    #ret = truvari.cmd_exe(f"bcftools view -i 'ASMCOV[0] == 72' {vcf} | bcftools +mendelian -c --trio-file fams.ped")
     ret = truvari.cmd_exe(f"bcftools +mendelian -c --trio-file fams.ped {vcf}")
-    print(ret)
     ref = vcf.split('/')[-2]
     method = vcf.split('/')[-1].split('.')[0]
     data = parse_results(ret.stdout, ref, method)
