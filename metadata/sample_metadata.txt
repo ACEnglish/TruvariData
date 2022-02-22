@@ -13,9 +13,9 @@ HG00171	HG00171	unrel	female	FIN	Finnish	EUR	European Ancestry
 HG00512	SH032	father	male	CHS	Southern Han Chinese	EAS	East Asian Ancestry	
 HG00513	SH032	mother	female	CHS	Southern Han Chinese	EAS	East Asian Ancestry	
 HG00514	SH032	child	female	CHS	Southern Han Chinese	EAS	East Asian Ancestry	
-HG00731	RM8398	father	male	PUR	Puerto Rican	AMR	American Ancestry	
-HG00732	RM8398	mother	female	PUR	Puerto Rican	AMR	American Ancestry	
-HG00733	RM8398	child	female	PUR	Puerto Rican	AMR	American Ancestry	
+HG00731	PR05	father	male	PUR	Puerto Rican	AMR	American Ancestry	
+HG00732	PR05	mother	female	PUR	Puerto Rican	AMR	American Ancestry	
+HG00733	PR05	child	female	PUR	Puerto Rican	AMR	American Ancestry	
 HG00864	HG00864	unrel	female	CDX	Dai Chinese	EAS	East Asian Ancestry	
 HG01114	CLM03	child	female	CLM	Colombian	AMR	American Ancestry	
 HG01505	IBS002	child	male	IBS	Iberian	EUR	European Ancestry	

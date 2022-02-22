@@ -19,3 +19,6 @@ python pvcf_byty_stats.py data/*/*.vcf.gz
 
 # Med Genes
 see `med_genes`
+
+# Mendelian
+python mendelian_checker.py
