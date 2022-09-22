@@ -1,5 +1,7 @@
 set -e
-MSRUSRC=../../scripts/
+
+
+MSRUSRC=/users/u233287/scratch/insertion_ref/msru/scripts/
 # hg19 NA24385 exact vcf
 REF=$1
 LR_EXACT_VCF=$2

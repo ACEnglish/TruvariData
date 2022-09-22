@@ -12,7 +12,7 @@ o = pysam.VariantFile("/dev/stdout", 'w', header=header)
 for entry in v:
     sz = len(entry.alts[0]) - len(entry.ref)
     if abs(sz) >= 25:
-        entry = truvari.copy_entry(entry, header)
+        entry.translate(header)
         if sz < 0:
             entry.info["SVTYPE"] = "DEL"
         else:
