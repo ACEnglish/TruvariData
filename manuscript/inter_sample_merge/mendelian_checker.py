@@ -30,8 +30,8 @@ def parse_results(stdout, ref, method, which):
 results = []
 for vcf in glob.glob("data/*/*.vcf.gz"):
     #If you want the 'best covered' sites
-    #ret = truvari.cmd_exe(f"bcftools view -i 'ASMCOV[0] == 72' {vcf} | bcftools +mendelian -c --trio-file fams.ped")
-    ret = truvari.cmd_exe(f"bcftools +mendelian -c --trio-file fams.ped {vcf}")
+    ret = truvari.cmd_exe(f"bcftools view -i 'ASMCOV[0] == 72' {vcf} | bcftools +mendelian -c --trio-file fams.ped")
+    #ret = truvari.cmd_exe(f"bcftools +mendelian -c --trio-file fams.ped {vcf}")
     ref = vcf.split('/')[-2]
     method = vcf.split('/')[-1].split('.')[0]
     data = parse_results(ret.stdout, ref, method, 'all')
@@ -44,10 +44,10 @@ for vcf in glob.glob("data/*/*.vcf.gz"):
         
 
 results = pd.DataFrame(results, columns=["nOk", "nBad", "nSkipped", "Trio", "Reference", "Merge", "Variants"])
-results.to_csv('mendelian_raw.txt', sep='\t', index=False)
+results.to_csv('mendelian_raw_bcf.txt', sep='\t', index=False)
 results['nOk'] = results['nOk'].astype(int)
 results['nBad'] = results['nBad'].astype(int)
 results['nSkipped'] = results['nSkipped'].astype(int)
 results['MendErr'] = results['nBad'] / (results['nBad'] + results['nOk'])
 
-results.to_csv('mendelian.txt', sep='\t', index=False)
+results.to_csv('mendelian_bc.txt', sep='\t', index=False)
