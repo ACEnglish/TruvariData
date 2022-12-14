@@ -4,6 +4,8 @@ Investigating when two SVs are the same
 
 This repository contains the workflow and notes for creating most of the data for this research
 
+Input/output results can be found at: https://tinyurl.com/TruvariRawData
+
 # Setup
 ## Requirements
 
