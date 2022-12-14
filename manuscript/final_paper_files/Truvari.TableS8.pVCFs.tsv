@@ -1,0 +1,7 @@
+Reference	Path	Notes
+chm13	ftp://ftp.hgsc.bcm.edu/Software/Truvari/3.1/population_vcfs/chm13.sv.vcf.gz	SVs only
+chm13	ftp://ftp.hgsc.bcm.edu/Software/Truvari/3.1/population_vcfs/chm13.vcf.gz	
+grch38	ftp://ftp.hgsc.bcm.edu/Software/Truvari/3.1/population_vcfs/grch38.sv.vcf.gz	SVs only
+grch38	ftp://ftp.hgsc.bcm.edu/Software/Truvari/3.1/population_vcfs/grch38.vcf.gz	
+hg19	ftp://ftp.hgsc.bcm.edu/Software/Truvari/3.1/population_vcfs/hg19.sv.vcf.gz	SVs only
+hg19	ftp://ftp.hgsc.bcm.edu/Software/Truvari/3.1/population_vcfs/hg19.vcf.gz	
