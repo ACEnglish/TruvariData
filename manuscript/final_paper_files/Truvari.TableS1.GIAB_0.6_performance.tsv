@@ -1,0 +1,4 @@
+Merge	TP-base	TP-call	FP	FN	precision	recall	f1	base cnt	call cnt
+exact	9036	10185	933	605	0.916	0.937	0.927	9641	11118
+strict	9035	9395	897	606	0.913	0.937	0.925	9641	10292
+loose	9028	9058	834	613	0.916	0.936	0.926	9641	9892

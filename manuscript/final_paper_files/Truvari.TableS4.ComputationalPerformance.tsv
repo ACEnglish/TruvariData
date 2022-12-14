@@ -1,0 +1,16 @@
+Merge	Reference	SV call-set	Walltime (m:ss)
+BCFtools	grch38	Manta	0:00:06
+Truvari v3.1	grch38	Manta	0:01:26
+Jasmine	grch38	Manta	0:01:36
+Naive	grch38	Manta	0:00:42
+SURVIVOR	grch38	Manta	.
+BCFtools	grch38	BioGraph	0:00:28
+Truvari v3.1	grch38	BioGraph	0:06:39
+Jasmine	grch38	BioGraph	0:26:02
+Naive	grch38	BioGraph	0:06:45
+SURVIVOR	grch38	BioGraph	0:00:20
+BCFtools	chm13	BioGraph	0:00:24
+Truvari v3.1	chm13	BioGraph	0:07:01
+Jasmine	chm13	BioGraph	0:18:52
+Naive	chm13	BioGraph	0:03:56
+SURVIVOR	chm13	BioGraph	0:00:16

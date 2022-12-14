@@ -1,0 +1,6 @@
+Merge	Version	Estimated Stringency	Metrics
+BCFtools	1.13	Extreme	Identical position and sequence
+Truvari	3.1.0	High	Type Matching, Reference Distance, Reciprocal Overlap, SizeSimilarity, SequenceSimilarity
+Jasmine	1.14	Moderate	Type Matching, Position, Length
+Naive	N/A	Moderate	Type Matching, Reciprocal Overlap
+SURVIVOR	1.07	Low	Type Matching, Distance
